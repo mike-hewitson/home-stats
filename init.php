@@ -46,4 +46,4 @@ $pdo->query('CREATE TABLE IF NOT EXISTS "traffic" (
 
 // $result = pg_query($query1);
 
-// echo 'result ' . $result;
+echo 'result ' . $result;
