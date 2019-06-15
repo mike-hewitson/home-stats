@@ -5,8 +5,19 @@ date_default_timezone_set('Etc/UTC');
 // Create a new database, if the file doesn't exist and open it for reading/writing.
 echo 'My username is ' . $_ENV["DATABASE_URL"] . '!';
 
+$conn = pg_connect(getenv("DATABASE_URL"));
+
 // The extension of the file is arbitrary.
-$db = new PDO('uir:' . $_ENV["DATABASE_URL"]);
+$db = parse_url(getenv("DATABASE_URL"));
+
+$pdo = new PDO("pgsql:" . sprintf(
+    "host=%s;port=%s;user=%s;password=%s;dbname=%s",
+    $db["host"],
+    $db["port"],
+    $db["user"],
+    $db["pass"],
+    ltrim($db["path"], "/")
+));
 
 // Create tables.
 // Base table for devices
