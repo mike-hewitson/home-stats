@@ -9,20 +9,20 @@ echo 'My username is ' . $_ENV["DATABASE_URL"] . '!';
 // $conn = pg_connect(getenv("DATABASE_URL"));
 
 // The extension of the file is arbitrary.
-$db = parse_url(getenv("DATABASE_URL"));
+$url = parse_url(getenv("DATABASE_URL"));
 
-$pdo = new PDO("pgsql:" . sprintf(
+$db = new PDO("pgsql:" . sprintf(
      "host=%s;port=%s;user=%s;password=%s;dbname=%s",
-     $db["host"],
-     $db["port"],
-     $db["user"],
-     $db["pass"],
-     ltrim($db["path"], "/")
+     $url["host"],
+     $url["port"],
+     $url["user"],
+     $url["pass"],
+     ltrim($url["path"], "/")
  ));
 
 // Create tables.
 // Base table for devices
-$pdo->query ('CREATE TABLE IF NOT EXISTS "devices" (
+$db->query ('CREATE TABLE IF NOT EXISTS "devices" (
     "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     "sn" TEXT,
     "comment" VARCHAR,
@@ -32,7 +32,7 @@ $pdo->query ('CREATE TABLE IF NOT EXISTS "devices" (
 )');
 
 // Base table for detailed traffic
-$pdo->query('CREATE TABLE IF NOT EXISTS "traffic" (
+$db->query('CREATE TABLE IF NOT EXISTS "traffic" (
     "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     "device_id" INT,
     "timestamp" DATETIME,
@@ -46,4 +46,4 @@ $pdo->query('CREATE TABLE IF NOT EXISTS "traffic" (
 
 // $result = pg_query($query1);
 
-echo 'result ' . $result;
+// echo 'result ' . $result;
