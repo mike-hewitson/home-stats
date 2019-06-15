@@ -10,18 +10,18 @@ $conn = pg_connect(getenv("DATABASE_URL"));
 // The extension of the file is arbitrary.
 $db = parse_url(getenv("DATABASE_URL"));
 
-$pdo = new PDO("pgsql:" . sprintf(
-    "host=%s;port=%s;user=%s;password=%s;dbname=%s",
-    $db["host"],
-    $db["port"],
-    $db["user"],
-    $db["pass"],
-    ltrim($db["path"], "/")
-));
+// $pdo = new PDO("pgsql:" . sprintf(
+//     "host=%s;port=%s;user=%s;password=%s;dbname=%s",
+//     $db["host"],
+//     $db["port"],
+//     $db["user"],
+//     $db["pass"],
+//     ltrim($db["path"], "/")
+// ));
 
 // Create tables.
 // Base table for devices
-$db->query('CREATE TABLE IF NOT EXISTS "devices" (
+$query1('CREATE TABLE IF NOT EXISTS "devices" (
     "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     "sn" TEXT,
     "comment" VARCHAR,
@@ -31,10 +31,18 @@ $db->query('CREATE TABLE IF NOT EXISTS "devices" (
 )');
 
 // Base table for detailed traffic
-$db->query('CREATE TABLE IF NOT EXISTS "traffic" (
+$query2('CREATE TABLE IF NOT EXISTS "traffic" (
     "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     "device_id" INT,
     "timestamp" DATETIME,
     "tx" INT,
     "rx" INT
 )');
+
+$query = "INSERT INTO book VALUES ('$_POST[bookid]','$_POST[book_name]',
+'$_POST[author]','$_POST[publisher]','$_POST[dop]',
+'$_POST[price]')";
+
+$result = pg_query($query1); 
+
+echo 'result ' . $result;
