@@ -3,6 +3,7 @@
 date_default_timezone_set('Etc/UTC');
 
 // Create a new database, if the file doesn't exist and open it for reading/writing.
+require_once 'dbconfig.php';
 echo 'My username is ' . $_ENV["DATABASE_URL"] . '!';
 
 $conn = pg_connect(getenv("DATABASE_URL"));
