@@ -128,7 +128,7 @@ if (isset($_GET['id']) and is_numeric($_GET['id'])) {
 }
 else {
   $result = $db->query('SELECT * FROM devices');
-  if(empty($result->fetchArray(PDO::FETCH_ASSOC))) {
+  if(empty($result->fetchArray(PGSQL_ASSOC))) {
     echo "No devices found.<br/>";
   }
   else {
