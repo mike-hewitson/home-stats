@@ -3,6 +3,8 @@
 date_default_timezone_set('Etc/UTC');
 
 // Create a new database, if the file doesn't exist and open it for reading/writing.
+echo 'My username is ' .$_ENV["DATABASE_URL"] . '!';
+
 // The extension of the file is arbitrary.
 $db = new SQLite3('tikstats.sqlite', SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
 
