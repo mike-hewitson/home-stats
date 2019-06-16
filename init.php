@@ -22,22 +22,32 @@ $db = new PDO("pgsql:" . sprintf(
 
 // Create tables.
 // Base table for devices
-$db->query ('CREATE TABLE IF NOT EXISTS "devices" (
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    "sn" TEXT,
-    "comment" VARCHAR,
-    "last_check" DATETIME,
-    "last_tx" INT,
-    "last_rx" INT
+// $db->query ('CREATE TABLE IF NOT EXISTS "devices" (
+//    "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+//    "sn" TEXT,
+//    "comment" VARCHAR,
+//    "last_check" DATETIME,
+//    "last_tx" INTEGER,
+//    "last_rx" INTEGER
+// )');
+
+$db->query('CREATE TABLE public.devices
+(
+    id integer NOT NULL,
+    device_id integer,
+    "timestamp" date,
+    tx integer,
+    rx integer,
+    CONSTRAINT devices_pkey PRIMARY KEY (id)
 )');
 
 // Base table for detailed traffic
 $db->query('CREATE TABLE IF NOT EXISTS "traffic" (
     "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    "device_id" INT,
+    "device_id" INTEGER,
     "timestamp" DATETIME,
-    "tx" INT,
-    "rx" INT
+    "tx" INTEGER,
+    "rx" INTEGER
 )');
 
 // $query = "INSERT INTO book VALUES ('$_POST[bookid]','$_POST[book_name]',
