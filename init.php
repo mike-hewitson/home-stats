@@ -22,7 +22,7 @@ $db = new PDO("pgsql:" . sprintf(
 
 // Create tables.
 // Base table for devices
-$result=$db->query ('CREATE TABLE IF NOT EXISTS devices (
+$db->query ('CREATE TABLE IF NOT EXISTS devices (
     id SERIAL PRIMARY KEY,
     sn TEXT,
     comment VARCHAR,
@@ -33,7 +33,7 @@ $result=$db->query ('CREATE TABLE IF NOT EXISTS devices (
 
 
 // Base table for detailed traffic
-$result=$db->query('CREATE TABLE IF NOT EXISTS traffic (
+$db->query('CREATE TABLE IF NOT EXISTS traffic (
     id SERIAL PRIMARY KEY,
     device_id INTEGER,
     timestamp DATE,
@@ -41,7 +41,4 @@ $result=$db->query('CREATE TABLE IF NOT EXISTS traffic (
     rx INTEGER
 )');
 
-
-
-echo 'stuff' . $result;
 

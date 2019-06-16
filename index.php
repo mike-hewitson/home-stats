@@ -127,8 +127,8 @@ if (isset($_GET['id']) and is_numeric($_GET['id'])) {
   $result->finalize();
 }
 else {
-  $result = $db->query('SELECT * FROM devices');
-  if(empty($result->fetchArray(PGSQL_ASSOC))) {
+    $result = $db->query('SELECT * FROM devices');
+  if(empty($result->fetchAll())) {
     echo "No devices found.<br/>";
   }
   else {
@@ -137,7 +137,7 @@ else {
       echo '<a href="?id='.$device['id'].'"><strong>'.$device['sn'].'</strong></a> ('.$device['comment'].') Last check: '.$device['last_check'].'<br/>';
     }
   }
-  $result->finalize();
+//  $result->finalize();
 }
 ?>
 </html>
