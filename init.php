@@ -22,38 +22,26 @@ $db = new PDO("pgsql:" . sprintf(
 
 // Create tables.
 // Base table for devices
-// $db->query ('CREATE TABLE IF NOT EXISTS "devices" (
-//    "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-//    "sn" TEXT,
-//    "comment" VARCHAR,
-//    "last_check" DATETIME,
-//    "last_tx" INTEGER,
-//    "last_rx" INTEGER
-// )');
+$result=$db->query ('CREATE TABLE IF NOT EXISTS devices (
+    id SERIAL PRIMARY KEY,
+    sn TEXT,
+    comment VARCHAR,
+    last_check DATE,
+    last_tx INTEGER,
+    last_rx INTEGER
+ )');
 
-$db->query('CREATE TABLE public.devices
-(
-    id integer NOT NULL,
-    device_id integer,
-    "timestamp" date,
-    tx integer,
-    rx integer,
-    CONSTRAINT devices_pkey PRIMARY KEY (id)
-)');
 
 // Base table for detailed traffic
-$db->query('CREATE TABLE IF NOT EXISTS "traffic" (
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    "device_id" INTEGER,
-    "timestamp" DATETIME,
-    "tx" INTEGER,
-    "rx" INTEGER
+$result=$db->query('CREATE TABLE IF NOT EXISTS traffic (
+    id SERIAL PRIMARY KEY,
+    device_id INTEGER,
+    timestamp DATE,
+    tx INTEGER,
+    rx INTEGER
 )');
 
-// $query = "INSERT INTO book VALUES ('$_POST[bookid]','$_POST[book_name]',
-// '$_POST[author]','$_POST[publisher]','$_POST[dop]',
-// '$_POST[price]')";
 
-// $result = pg_query($query1);
 
-// echo 'result ' . $result;
+echo 'stuff' . $result;
+
