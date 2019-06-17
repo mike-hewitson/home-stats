@@ -27,7 +27,10 @@
         foreach ($results as $res) {
             if(!isset($res['timestamp'])) continue;
             //set to Google Chart data format
-            $chartData .= "['".date('d M H:i', strtotime($res['timestamp']))."',".round(($res['work']/1024/1024),2).",".round(($res['entertainment']/1024/1024),2)."],";
+            $chartData .= "['".date('d M H:i', strtotime($res['timestamp']))."',"
+                         .round(($res['work']/1024/1024),2).","
+                         .round(($res['entertainment']/1024/1024),2).","
+                         .round(($res['therest']/1024/1024),2)."],";
         }
 
     ?>
@@ -39,7 +42,7 @@
 
          function drawChart() {
              var data = google.visualization.arrayToDataTable([
-                 ['Date/Time', 'Work', 'Entertainment'],
+                 ['Date/Time', 'Work', 'Entertainment', 'Default'],
                  <?php echo $chartData;?>
              ]);
 
@@ -65,7 +68,7 @@
 
     //get daily stats
     //query the db
-    $daily = $db->prepare('SELECT sum(tx) as sumtx, sum(rx) as sumrx FROM traffic WHERE device_id = ? AND timestamp >= ? AND timestamp <= ?');
+    $daily = $db->prepare('SELECT sum(work) as sumwork, sum(entertainment) as sument, sum(therest) as sumtherest FROM qtraffic WHERE device_id = ? AND timestamp >= ? AND timestamp <= ?');
     $daily->bindValue(1, $_GET['id']);
     $daily->bindValue(2, date('Y-m-d 00:00:00'));
     $daily->bindValue(3, date('Y-m-d 23:59:59'));
@@ -76,9 +79,10 @@
     //display results
     echo "<strong>Daily Stats</strong><br/>";
     echo "From: ".date('Y-m-d 00:00:00')." to ".date('Y-m-d 23:59:59')."<br/>";
-    echo "TX: ".round(($dailyTraffic['sumtx']/1024/1024),2)." Mb ";
-    echo "RX: ".round(($dailyTraffic['sumrx']/1024/1024),2)." Mb ";
-    echo "Total: ".round((($dailyTraffic['sumtx']+$dailyTraffic['sumrx'])/1024/1024),2)." Mb </br>";
+    echo "WORK: ".round(($dailyTraffic['sumwork']/1024/1024),2)." Mb ";
+    echo "ENTERTAINMENT: ".round(($dailyTraffic['sumentertainment']/1024/1024),2)." Mb ";
+    echo "THE REST: ".round(($dailyTraffic['sumtherest']/1024/1024),2)." Mb ";
+    echo "Total: ".round((($dailyTraffic['sumwork']+$dailyTraffic['sumentertainment']+$dailyTraffic['sumtherest'])/1024/1024),2)." Mb </br>";
     echo "<br/>";
 
     //get weekly stats

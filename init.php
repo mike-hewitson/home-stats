@@ -23,8 +23,8 @@ $db->query ('CREATE TABLE IF NOT EXISTS devices (
     sn TEXT,
     comment VARCHAR,
     last_check timestamp without time zone,
-    last_tx INTEGER,
-    last_rx INTEGER
+    last_tx bigint,
+    last_rx bigint
  )');
 
 
@@ -33,8 +33,8 @@ $db->query('CREATE TABLE IF NOT EXISTS traffic (
     id SERIAL PRIMARY KEY,
     device_id INTEGER,
     timestamp timestamp without time zone,
-    tx INTEGER,
-    rx INTEGER
+    tx bigint,
+    rx bigint
 )');
 
 
@@ -43,9 +43,9 @@ $db->query('CREATE TABLE IF NOT EXISTS qtraffic (
     id SERIAL PRIMARY KEY,
     device_id INTEGER,
     timestamp timestamp without time zone,
-    work INTEGER,
-    entertainment INTEGER,
-    therest INTEGER
+    work bigint,
+    entertainment bigint,
+    therest bigint
 )');
 
 
