@@ -12,7 +12,7 @@
         $device = $getDevice->fetch(PDO::FETCH_ASSOC);
         echo "<strong>Device Serial: ".$device['sn']."</strong> (".$device['comment'].")<br/>";
         echo "Last check time: ".$device['last_check']." <br/>";
-        echo "Last results: WORK TX:".round(($device['last_tx']/1024/1024),2)." Mb, WORK RX : ".round(($device['last_rx']/1024/1024),2)." Mb <br/>";
+        echo "Last results loaded: Tx:".round(($device['last_tx']/1024/1024),2)." Mb, Rx : ".round(($device['last_rx']/1024/1024),2)." Mb <br/>";
         echo "<br/>";
 
         //get data for chart
