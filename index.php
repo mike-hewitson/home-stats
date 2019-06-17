@@ -44,8 +44,9 @@
              var options = {
                  chart: {
                      title: 'Traffic Stats',
-                     subtitle: 'Last 24 hours',
-                 }
+                     subtitle: 'Last 24 hours'
+                 },
+                 isStacked: true
              };
 
              var chart = new google.charts.Bar(document.getElementById('columnchart_material'));

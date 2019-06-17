@@ -47,8 +47,10 @@
              var options = {
                  chart: {
                      title: 'Traffic Stats',
-                     subtitle: 'Last 24 hours',
-                 }
+                     subtitle: 'Last 24 hours'
+                 },
+                 isStacked: true
+
              };
 
              var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
@@ -129,7 +131,7 @@
     #print_r($weeklyTraffic->fetchArray(SQLITE3_ASSOC));
     $weeklyTraffic = $weekly->fetch();
     //display results
-    echo "<strong>Last Weekl</strong><br/>";
+    echo "<strong>Last Week</strong><br/>";
     echo "From: ".$firstdayofweek->format('Y-m-d 00:00:00')." to ".$lastdayofweek->format('Y-m-d 23:59:59')."<br/>";
     echo "WORK: ".round(($weeklyTraffic['sumwork']/1024/1024/1024),2)." Gb, ";
     echo "ENTERTAINMENT: ".round(($weeklyTraffic['sument']/1024/1024/1024),2)." Gb, ";
@@ -147,7 +149,7 @@
 
     $monthlyTraffic = $monthly->fetch();
     //display results
-    echo "<strong>This Monthl</strong><br/>";
+    echo "<strong>This Month</strong><br/>";
     echo "From: ".date('Y-m-01 00:00:00')." to ".date('Y-m-t 23:59:59')."<br/>";
     echo "WORK: ".round(($monthlyTraffic['sumwork']/1024/1024/1024),2)." Gb, ";
     echo "ENTERTAINMENT: ".round(($monthlyTraffic['sument']/1024/1024/1024),2)." Gb, ";
