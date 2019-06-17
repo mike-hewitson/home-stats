@@ -38,3 +38,14 @@ $db->query('CREATE TABLE IF NOT EXISTS traffic (
 )');
 
 
+// Base table for detailed traffic for queues
+$db->query('CREATE TABLE IF NOT EXISTS qtraffic (
+    id SERIAL PRIMARY KEY,
+    device_id INTEGER,
+    timestamp timestamp without time zone,
+    work INTEGER,
+    entertainment INTEGER,
+    default INTEGER
+)');
+
+
