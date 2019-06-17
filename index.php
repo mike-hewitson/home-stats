@@ -72,8 +72,30 @@
     $dailyTraffic = $daily->fetch();
 
     //display results
-    echo "<strong>Daily Stats</strong><br/>";
+    echo "<strong>Today</strong><br/>";
     echo "From: ".date('Y-m-d 00:00:00')." to ".date('Y-m-d 23:59:59')."<br/>";
+    echo "TX: ".round(($dailyTraffic['sumtx']/1024/1024),2)." Mb ";
+    echo "RX: ".round(($dailyTraffic['sumrx']/1024/1024),2)." Mb ";
+    echo "Total: ".round((($dailyTraffic['sumtx']+$dailyTraffic['sumrx'])/1024/1024),2)." Mb </br>";
+    echo "<br/>";
+
+
+    $yesterday = new DateTime();
+    $yesterday->modify("-1 day");
+
+    //get yesterday stats
+    //query the db
+    $daily = $db->prepare('SELECT sum(tx) as sumtx, sum(rx) as sumrx FROM traffic WHERE device_id = ? AND timestamp >= ? AND timestamp <= ?');
+    $daily->bindValue(1, $_GET['id']);
+    $daily->bindValue(2,  $yesterday->format('Y-m-d 00:00:00'));
+    $daily->bindValue(3, $yesterday->format('Y-m-d 23:59:59'));
+    $daily->execute();
+
+    $dailyTraffic = $daily->fetch();
+
+    //display results
+    echo "<strong>Yesterday</strong><br/>";
+    echo "From: ".$yesterday->format('Y-m-d 00:00:00')." to ".$yesterday->format('Y-m-d 23:59:59')."<br/>";
     echo "TX: ".round(($dailyTraffic['sumtx']/1024/1024),2)." Mb ";
     echo "RX: ".round(($dailyTraffic['sumrx']/1024/1024),2)." Mb ";
     echo "Total: ".round((($dailyTraffic['sumtx']+$dailyTraffic['sumrx'])/1024/1024),2)." Mb </br>";
@@ -100,7 +122,7 @@
     #print_r($weeklyTraffic->fetchArray(SQLITE3_ASSOC));
     $weeklyTraffic = $weekly->fetch();
     //display results
-    echo "<strong>Weekly Stats</strong><br/>";
+    echo "<strong>This Week</strong><br/>";
     echo "From: ".$firstdayofweek->format('Y-m-d 00:00:00')." to ".$lastdayofweek->format('Y-m-d 23:59:59')."<br/>";
     echo "TX: ".round(($weeklyTraffic['sumtx']/1024/1024),2)." Mb ";
     echo "RX: ".round(($weeklyTraffic['sumrx']/1024/1024),2)." Mb ";
@@ -117,7 +139,7 @@
 
     $monthlyTraffic = $monthly->fetch();
     //display results
-    echo "<strong>Monthly Stats</strong><br/>";
+    echo "<strong>This Month</strong><br/>";
     echo "From: ".date('Y-m-01 00:00:00')." to ".date('Y-m-t 23:59:59')."<br/>";
     echo "TX: ".round(($monthlyTraffic['sumtx']/1024/1024),2)." Mb ";
     echo "RX: ".round(($monthlyTraffic['sumrx']/1024/1024),2)." Mb ";
