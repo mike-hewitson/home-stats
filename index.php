@@ -132,8 +132,9 @@ else {
     echo "No devices found.<br/>";
   }
   else {
-    $result = $db->query('SELECT * FROM devices');
-    while ($device = $result->fetchArray(SQLITE3_ASSOC)){
+      $result = $db->query('SELECT * FROM devices');
+      print_r($result);
+    foreach ($result as $device) {
       echo '<a href="?id='.$device['id'].'"><strong>'.$device['sn'].'</strong></a> ('.$device['comment'].') Last check: '.$device['last_check'].'<br/>';
     }
   }

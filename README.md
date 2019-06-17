@@ -43,6 +43,11 @@ Edit the `<script name>` to match the actual script.
 ## Sample Screenshot
 ![Screenshot](index_screenshot.png)
 
+## Running locally
+
+postgres://postgres:@localhost:5432/mydatabasename
+
+
 ## Author
 Mohamed Muhannad ([@monde_](https://twitter.com/monde_))
 
