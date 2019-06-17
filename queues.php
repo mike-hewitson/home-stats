@@ -12,7 +12,7 @@
         $device = $getDevice->fetch(PDO::FETCH_ASSOC);
         echo "<strong>Device Serial: ".$device['sn']."</strong> (".$device['comment'].")<br/>";
         echo "Last check time: ".$device['last_check']." <br/>";
-        echo "Last results: TX:".round(($device['last_tx']/1024/1024),2)." Mb RX : ".round(($device['last_rx']/1024/1024),2)." Mb <br/>";
+        echo "Last results: WORK TX:".round(($device['last_tx']/1024/1024),2)." Mb, WORK RX : ".round(($device['last_rx']/1024/1024),2)." Mb <br/>";
         echo "<br/>";
 
         //get data for chart
@@ -21,8 +21,6 @@
         $getTraffic->execute();
         $chartData = '';
         $results = $getTraffic->fetchAll();
-
-        echo print_r($results);
 
         foreach ($results as $res) {
             if(!isset($res['timestamp'])) continue;
@@ -42,7 +40,7 @@
 
          function drawChart() {
              var data = google.visualization.arrayToDataTable([
-                 ['Date/Time', 'Work', 'Entertainment', 'Default'],
+                 ['Date/Time', 'Work (Mb)', 'Entertainment (Mb)', 'Default (Mb)'],
                  <?php echo $chartData;?>
              ]);
 
@@ -79,10 +77,10 @@
     //display results
     echo "<strong>Daily Stats</strong><br/>";
     echo "From: ".date('Y-m-d 00:00:00')." to ".date('Y-m-d 23:59:59')."<br/>";
-    echo "WORK: ".round(($dailyTraffic['sumwork']/1024/1024),2)." Mb ";
-    echo "ENTERTAINMENT: ".round(($dailyTraffic['sumentertainment']/1024/1024),2)." Mb ";
-    echo "THE REST: ".round(($dailyTraffic['sumtherest']/1024/1024),2)." Mb ";
-    echo "Total: ".round((($dailyTraffic['sumwork']+$dailyTraffic['sumentertainment']+$dailyTraffic['sumtherest'])/1024/1024),2)." Mb </br>";
+    echo "WORK: ".number_format(round(($dailyTraffic['sumwork']/1024/1024),2),2)." Mb, ";
+    echo "ENTERTAINMENT: ".round(($dailyTraffic['sument']/1024/1024),2)." Mb, ";
+    echo "THE REST: ".round(($dailyTraffic['sumtherest']/1024/1024),2)." Mb, ";
+    echo "Total: ".round((($dailyTraffic['sumwork']+$dailyTraffic['sument']+$dailyTraffic['sumtherest'])/1024/1024),2)." Mb </br>";
     echo "<br/>";
 
     //get weekly stats
@@ -98,7 +96,7 @@
     #echo $firstdayofweek->format('Y-m-d 00:00:00').' to '.$lastdayofweek->format('Y-m-d 23:59:59');
 
     //query the db
-    $weekly = $db->prepare('SELECT sum(tx) as sumtx, sum(rx) as sumrx FROM traffic WHERE device_id = ? AND timestamp >= ? AND timestamp <= ?');
+    $weekly = $db->prepare('SELECT sum(work) as sumwork, sum(entertainment) as sument, sum(therest) as sumtherest FROM qtraffic WHERE device_id = ? AND timestamp >= ? AND timestamp <= ?');
     $weekly->bindValue(1, $_GET['id']);
     $weekly->bindValue(2, $firstdayofweek->format('Y-m-d 00:00:00'));
     $weekly->bindValue(3, $lastdayofweek->format('Y-m-d 23:59:59'));
@@ -108,40 +106,42 @@
     //display results
     echo "<strong>Weekly Stats</strong><br/>";
     echo "From: ".$firstdayofweek->format('Y-m-d 00:00:00')." to ".$lastdayofweek->format('Y-m-d 23:59:59')."<br/>";
-    echo "TX: ".round(($weeklyTraffic['sumtx']/1024/1024),2)." Mb ";
-    echo "RX: ".round(($weeklyTraffic['sumrx']/1024/1024),2)." Mb ";
-    echo "Total: ".round((($weeklyTraffic['sumtx']+$weeklyTraffic['sumrx'])/1024/1024),2)." Mb </br>";
+    echo "WORK: ".round(($weeklyTraffic['sumwork']/1024/1024/1024),2)." Gb, ";
+    echo "ENTERTAINMENT: ".round(($weeklyTraffic['sument']/1024/1024/1024),2)." Gb, ";
+    echo "DEFAULT: ".round(($weeklyTraffic['sumtherest']/1024/1024/1024),2)." Gb, ";
+    echo "Total: ".round((($weeklyTraffic['sumwork']+$weeklyTraffic['sument']+$weeklyTraffic['sumtherest'])/1024/1024/1024),2)." Gb </br>";
     echo "<br/>";
 
-    //get monthly stats
-    //query the db
-    $monthly = $db->prepare('SELECT sum(tx) as sumtx, sum(rx) as sumrx FROM traffic WHERE device_id = ? AND timestamp >= ? AND timestamp <= ?');
-    $monthly->bindValue(1, $_GET['id']);
-    $monthly->bindValue(2, date('Y-m-01 00:00:00'));
-    $monthly->bindValue(3, date('Y-m-t 23:59:59'));
-    $monthly->execute();
+        //get monthly stats
+        //query the db
+        $monthly = $db->prepare('SELECT sum(work) as sumwork, sum(entertainment) as sument, sum(therest) as sumtherest FROM qtraffic WHERE device_id = ? AND timestamp >= ? AND timestamp <= ?');
+        $monthly->bindValue(1, $_GET['id']);
+        $monthly->bindValue(2, date('Y-m-01 00:00:00'));
+        $monthly->bindValue(3, date('Y-m-t 23:59:59'));
+        $monthly->execute();
 
-    $monthlyTraffic = $monthly->fetch();
-    //display results
-    echo "<strong>Monthly Stats</strong><br/>";
-    echo "From: ".date('Y-m-01 00:00:00')." to ".date('Y-m-t 23:59:59')."<br/>";
-    echo "TX: ".round(($monthlyTraffic['sumtx']/1024/1024),2)." Mb ";
-    echo "RX: ".round(($monthlyTraffic['sumrx']/1024/1024),2)." Mb ";
-    echo "Total: ".round((($monthlyTraffic['sumtx']+$monthlyTraffic['sumrx'])/1024/1024),2)." Mb </br>";
-    echo "<br/>";
+        $monthlyTraffic = $monthly->fetch();
+        //display results
+        echo "<strong>Monthly Stats</strong><br/>";
+        echo "From: ".date('Y-m-01 00:00:00')." to ".date('Y-m-t 23:59:59')."<br/>";
+        echo "WORK: ".round(($monthlyTraffic['sumwork']/1024/1024/1024),2)." Gb, ";
+        echo "ENTERTAINMENT: ".round(($monthlyTraffic['sument']/1024/1024/1024),2)." Gb, ";
+        echo "DEFAULT: ".round(($monthlyTraffic['sumtherest']/1024/1024/1024),2)." Gb, ";
+        echo "Total: ".round((($monthlyTraffic['sumwork']+$monthlyTraffic['sument']+$monthlyTraffic['sumtherest'])/1024/1024/1024),2)." Gb </br>";
+        echo "<br/>";
 
     }
-    else {
-        $result = $db->query('SELECT * FROM devices');
-        if(empty($result->fetchAll())) {
-            echo "No devices found.<br/>";
-        }
         else {
             $result = $db->query('SELECT * FROM devices');
-            foreach ($result as $device) {
-                echo '<a href="?id='.$device['id'].'"><strong>'.$device['sn'].'</strong></a> ('.$device['comment'].') Last check: '.$device['last_check'].'<br/>';
+            if(empty($result->fetchAll())) {
+                echo "No devices found.<br/>";
+            }
+            else {
+                $result = $db->query('SELECT * FROM devices');
+                foreach ($result as $device) {
+                    echo '<a href="?id='.$device['id'].'"><strong>'.$device['sn'].'</strong></a> ('.$device['comment'].') Last check: '.$device['last_check'].'<br/>';
+                }
             }
         }
-    }
     ?>
 </html>
