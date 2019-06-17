@@ -13,8 +13,8 @@ Setup the Mikrotik router to collect and send the stats to the application first
 1. Create firewall mangle rules that will collect the traffic stats.
 ```
 /ip firewall mangle
-  add chain=forward src-address=192.168.88.0/24 out-interface=pppoe-out1 action=passthrough comment=local-wan-tx
-  add chain=forward dst-address=192.168.88.0/24 in-interface=pppoe-out1 action=passthrough comment=local-wan-rx
+  add chain=forward src-address=10.0.0.0/24 out-interface=e1_UPLINK action=passthrough comment=local-wan-tx
+  add chain=forward dst-address=10.0.0.0/24 in-interface=e1_UPLINK action=passthrough comment=local-wan-rx
 ```
 Here, I am monitoring usage for a specific subnet, going through a PPP connection for Internet.
 

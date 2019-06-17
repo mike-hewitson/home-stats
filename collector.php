@@ -18,9 +18,11 @@ if (isset($_GET['sn'])
 print("serial " . $device_serial);
 
 // Check if device exists
-$getDevice = $db->prepare('SELECT id, sn, comment, last_check, last_tx, last_rx FROM devices WHERE sn = "'.$device_serial.'"');
-$result = $getDevice->execute();
+$getDevice = $db->prepare("SELECT id, sn, comment, last_check, last_tx, last_rx FROM devices WHERE sn='".$device_serial."'");
+$getDevice->execute();
+$device = $getDevice->fetch(PDO::FETCH_ASSOC);
 
+print_r($device);
 
 // $device = $result->fetchArray(SQLITE3_ASSOC);
 if (empty($device)) {

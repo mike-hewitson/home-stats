@@ -4,8 +4,6 @@ date_default_timezone_set('Etc/UTC');
 
 // Create a new database, if the file doesn't exist and open it for reading/writing.
 
-// echo 'My username is ' . $_ENV["DATABASE_URL"] . '!';
-
 // The extension of the file is arbitrary.
 $url = parse_url(getenv("DATABASE_URL"));
 
@@ -39,19 +37,4 @@ $db->query('CREATE TABLE IF NOT EXISTS traffic (
     rx INTEGER
 )');
 
-$device_serial = '122';
-$query = 'SELECT id, sn, comment, last_check, last_tx, last_rx FROM devices WHERE sn = "'.$device_serial.'"';
 
-$getDevice = $db->prepare('SELECT id, sn, comment, last_check, last_tx, last_rx FROM devices WHERE sn = "'.$device_serial.'"');
-$result = $getDevice->execute();
-
-
-// echo $query;
-// echo 'result = ' . $result;
-// echo '--';
-// echo empty($result);
-
-$getDevice = $db->prepare('SELECT id, sn, comment, last_check, last_tx, last_rx FROM devices WHERE sn="'.$device_serial.'"');
-$result = $getDevice->execute();
-
-// $device = $result->fetchAll();
