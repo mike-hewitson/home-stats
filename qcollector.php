@@ -35,7 +35,7 @@ $q3 = explode('/',  $_GET['q3']);
 
 $work = $q1[0] + $q1[1];
 $entertainment = $q2[0] + $q2[1];
-$default = $q3[0] + $q1[1];
+$therest = $q3[0] + $q3[1];
 
 // $device = $result->fetchArray(SQLITE3_ASSOC);
 if (empty($device)) {
@@ -60,13 +60,13 @@ else {
 }
 
 //Update traffic data
-$updateTraffic = $db->prepare('INSERT INTO qtraffic (device_id, timestamp, work, entertainment, default)
-    VALUES (:id, :time, :work, :entertainment, :default)');
+$updateTraffic = $db->prepare('INSERT INTO qtraffic (device_id, timestamp, work, entertainment, therest)
+    VALUES (:id, :time, :work, :entertainment, :therest)');
 $updateTraffic->bindValue(':id', $device['id']);
 $updateTraffic->bindValue(':time', date('Y-m-d H:i:s'));
 $updateTraffic->bindValue(':work', $work);
 $updateTraffic->bindValue(':entertainment', $entertainment);
-$updateTraffic->bindValue(':default', $default);
+$updateTraffic->bindValue(':therest', $therest);
 $updateTraffic->execute();
 
 echo 'traffic data updated';

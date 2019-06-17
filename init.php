@@ -45,7 +45,7 @@ $db->query('CREATE TABLE IF NOT EXISTS qtraffic (
     timestamp timestamp without time zone,
     work INTEGER,
     entertainment INTEGER,
-    default INTEGER
+    therest INTEGER
 )');
 
 
