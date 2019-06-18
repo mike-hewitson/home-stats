@@ -26,9 +26,9 @@
             if(!isset($res['timestamp'])) continue;
             //set to Google Chart data format
             $chartData .= "['".date('d M H:i', strtotime($res['timestamp']))."',"
-                         .round(($res['work']/1024/1024),2).","
-                         .round(($res['entertainment']/1024/1024),2).","
-                         .round(($res['therest']/1024/1024),2)."],";
+                         .($res['work']).","
+                         .($res['entertainment']).","
+                         .($res['therest'])."],";
         }
 
     ?>
@@ -40,7 +40,7 @@
 
          function drawChart() {
              var data = google.visualization.arrayToDataTable([
-                 ['Date/Time', 'Work (Mb)', 'Entertainment (Mb)', 'Default (Mb)'],
+                 ['Date/Time', 'Work (B)', 'Entertainment (B)', 'Default (B)'],
                  <?php echo $chartData;?>
              ]);
 
