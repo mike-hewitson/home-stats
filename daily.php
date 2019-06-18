@@ -16,19 +16,20 @@
         echo "<br/>";
 
         //get data for chart
-        $getTraffic = $db->prepare('SELECT * FROM qtraffic WHERE device_id = ? ORDER BY timestamp DESC LIMIT 24');
-        $getTraffic->bindValue(1, $_GET['id']);
-        $getTraffic->execute();
+        $getDayTraffic = $db->prepare("SELECT day, (SELECT sum(work) FROM qtraffic WHERE timestamp >= day AND timestamp < day + interval '1 day') as sumwork, (SELECT sum(entertainment) FROM qtraffic WHERE timestamp >= day AND timestamp < day + interval '1 day') as sument, (SELECT sum(therest) FROM qtraffic WHERE device_id = ? AND timestamp >= day AND timestamp < day + interval '1 day') as sumtherest FROM generate_series(CURRENT_DATE, CURRENT_DATE -31, '-1 day'::interval) day");
+        $getDayTraffic->bindValue(1, $_GET['id']);
+        $getDayTraffic->execute();
+
         $chartData = '';
-        $results = $getTraffic->fetchAll();
+        $results = $getDayTraffic->fetchAll();
 
         foreach ($results as $res) {
-            if(!isset($res['timestamp'])) continue;
+            if(!isset($res['day'])) continue;
             //set to Google Chart data format
-            $chartData .= "['".date('d M H:i', strtotime($res['timestamp']))."',"
-                         .round(($res['work']/1024/1024),2).","
-                         .round(($res['entertainment']/1024/1024),2).","
-                         .round(($res['therest']/1024/1024),2)."],";
+            $chartData .= "['".date('d M', strtotime($res['day']))."',"
+                         .round(($res['sumwork']/1024/1024),2).","
+                         .round(($res['sument']/1024/1024),2).","
+                         .round(($res['sumtherest']/1024/1024),2)."],";
         }
 
     ?>
@@ -47,7 +48,7 @@
              var options = {
                  chart: {
                      title: 'Traffic Stats',
-                     subtitle: 'Last 24 hours'
+                     subtitle: 'Last 30 days'
                  },
                  isStacked: true
 
@@ -64,8 +65,6 @@
     </body>
 
     <?php
-
-
 
     //get summary stats
 
