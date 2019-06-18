@@ -131,7 +131,7 @@
     #print_r($weeklyTraffic->fetchArray(SQLITE3_ASSOC));
     $weeklyTraffic = $weekly->fetch();
     //display results
-    echo "<strong>Last Week</strong><br/>";
+    echo "<strong>This Week</strong><br/>";
     echo "From: ".$firstdayofweek->format('Y-m-d 00:00:00')." to ".$lastdayofweek->format('Y-m-d 23:59:59')."<br/>";
     echo "WORK: ".round(($weeklyTraffic['sumwork']/1024/1024/1024),2)." Gb, ";
     echo "ENTERTAINMENT: ".round(($weeklyTraffic['sument']/1024/1024/1024),2)." Gb, ";
