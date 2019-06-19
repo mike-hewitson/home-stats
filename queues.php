@@ -25,7 +25,7 @@
             if(!isset($res['timestamp'])) continue;
             //set to Google Chart data format
 
-            $date = date_create($res[timestamp]);
+            $date = date_create($res['timestamp']);
             date_timezone_set($date, timezone_open('Africa/Johannesburg'));
             $chartData .= "['".$date->format('d M H:i')."',"
                          .round(($res['work']/1024/1024),1).","
@@ -84,9 +84,9 @@
     //display results
     echo "<strong>Today</strong><br/>";
     echo "From: ".date('Y-m-d 00:00:00')." to ".date('Y-m-d 23:59:59')."<br/>";
-    echo "WORK: ".number_format(($dailyTraffic['sumwork']/1024/1024),1)." Mb, ";
-    echo "ENTERTAINMENT: ".number_format(($dailyTraffic['sument']/1024/1024),1)." Mb, ";
-    echo "THE REST: ".number_format(($dailyTraffic['sumtherest']/1024/1024),1)." Mb, ";
+    echo "Work: ".number_format(($dailyTraffic['sumwork']/1024/1024),1)." Mb, ";
+    echo "Entertainment: ".number_format(($dailyTraffic['sument']/1024/1024),1)." Mb, ";
+    echo "The rest: ".number_format(($dailyTraffic['sumtherest']/1024/1024),1)." Mb, ";
     echo "Total: ".number_format((($dailyTraffic['sumwork']+$dailyTraffic['sument']+$dailyTraffic['sumtherest'])/1024/1024),1)." Mb </br>";
     echo "<br/>";
 
@@ -108,9 +108,9 @@
     //display results
     echo "<strong>Yesterday</strong><br/>";
     echo "From: ".$yesterday->format('Y-m-d 00:00:00')." to ".$yesterday->format('Y-m-d 23:59:59')."<br/>";
-    echo "WORK: ".number_format(($dailyTraffic['sumwork']/1024/1024),1)." Mb, ";
-    echo "ENTERTAINMENT: ".number_format(($dailyTraffic['sument']/1024/1024),1)." Mb, ";
-    echo "THE REST: ".number_format(($dailyTraffic['sumtherest']/1024/1024),1)." Mb, ";
+    echo "Work: ".number_format(($dailyTraffic['sumwork']/1024/1024),1)." Mb, ";
+    echo "Entertainment: ".number_format(($dailyTraffic['sument']/1024/1024),1)." Mb, ";
+    echo "The rest: ".number_format(($dailyTraffic['sumtherest']/1024/1024),1)." Mb, ";
     echo "Total: ".number_format((($dailyTraffic['sumwork']+$dailyTraffic['sument']+$dailyTraffic['sumtherest'])/1024/1024),1)." Mb </br>";
     echo "<br/>";
 
@@ -138,9 +138,9 @@
     //display results
     echo "<strong>This Week</strong><br/>";
     echo "From: ".$firstdayofweek->format('Y-m-d 00:00:00')." to ".$lastdayofweek->format('Y-m-d 23:59:59')."<br/>";
-    echo "WORK: ".number_format(($weeklyTraffic['sumwork']/1024/1024/1024),1)." Gb, ";
-    echo "ENTERTAINMENT: ".number_format(($weeklyTraffic['sument']/1024/1024/1024),1)." Gb, ";
-    echo "DEFAULT: ".number_format(($weeklyTraffic['sumtherest']/1024/1024/1024),1)." Gb, ";
+    echo "Work: ".number_format(($weeklyTraffic['sumwork']/1024/1024/1024),1)." Gb, ";
+    echo "Entertainment: ".number_format(($weeklyTraffic['sument']/1024/1024/1024),1)." Gb, ";
+    echo "The rest: ".number_format(($weeklyTraffic['sumtherest']/1024/1024/1024),1)." Gb, ";
     echo "Total: ".number_format((($weeklyTraffic['sumwork']+$weeklyTraffic['sument']+$weeklyTraffic['sumtherest'])/1024/1024/1024),1)." Gb </br>";
     echo "<br/>";
 
@@ -156,9 +156,9 @@
     //display results
     echo "<strong>This Month</strong><br/>";
     echo "From: ".date('Y-m-01 00:00:00')." to ".date('Y-m-t 23:59:59')."<br/>";
-    echo "WORK: ".number_format(($monthlyTraffic['sumwork']/1024/1024/1024),1)." Gb, ";
-    echo "ENTERTAINMENT: ".number_format(($monthlyTraffic['sument']/1024/1024/1024),1)." Gb, ";
-    echo "DEFAULT: ".number_format(($monthlyTraffic['sumtherest']/1024/1024/1024),1)." Gb, ";
+    echo "Work: ".number_format(($monthlyTraffic['sumwork']/1024/1024/1024),1)." Gb, ";
+    echo "Entertainment: ".number_format(($monthlyTraffic['sument']/1024/1024/1024),1)." Gb, ";
+    echo "The Rest: ".number_format(($monthlyTraffic['sumtherest']/1024/1024/1024),1)." Gb, ";
     echo "Total: ".number_format((($monthlyTraffic['sumwork']+$monthlyTraffic['sument']+$monthlyTraffic['sumtherest'])/1024/1024/1024),1)." Gb </br>";
     echo "<br/>";
 
