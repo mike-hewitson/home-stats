@@ -16,7 +16,7 @@
         echo "<br/>";
 
         //get data for chart
-        $getTraffic = $db->prepare('SELECT * FROM (SELECT * FROM qtraffic WHERE device_id = ? ORDER BY timestamp DESC LIMIT 24) AS bob ORDER BY timestamp');
+        $getTraffic = $db->prepare('SELECT * FROM (SELECT * FROM qtraffic WHERE device_id = ? ORDER BY timestamp DESC LIMIT 48) AS bob ORDER BY timestamp');
         $getTraffic->bindValue(1, $_GET['id']);
         $getTraffic->execute();
         $chartData = '';
