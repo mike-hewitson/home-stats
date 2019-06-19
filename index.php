@@ -16,7 +16,7 @@
         echo "<br/>";
 
         //get data for chart
-        $getTraffic = $db->prepare('SELECT timestamp, tx, rx FROM traffic WHERE device_id = ? ORDER BY timestamp DESC LIMIT 24');
+        $getTraffic = $db->prepare('SELECT * FRIM (SELECT timestamp, tx, rx FROM traffic WHERE device_id = ? ORDER BY timestamp DESC LIMIT 24) as temp ODRER BY timestamp');
         $getTraffic->bindValue(1, $_GET['id']);
         $getTraffic->execute();
         $chartData = '';
