@@ -19,7 +19,7 @@
     echo "Work: ".number_format(($dailyTraffic['sumwork']/1024/1024/1024),1)." Gb, ";
     echo "Entertainment: ".number_format(($dailyTraffic['sument']/1024/1024/1024),1)." Gb, ";
     echo "The rest: ".number_format(($dailyTraffic['sumtherest']/1024/1024/1024),1)." Gb, ";
-    echo "Total: ".number_format((($dailyTraffic['sumwork']+$dailyTraffic['sument']+$dailyTraffic['sumtherest'])/1024/1024),1)." Mb </br>";
+    echo "Total: ".number_format((($dailyTraffic['sumwork']+$dailyTraffic['sument']+$dailyTraffic['sumtherest'])/1024/1024/1024),1)." Gb </br>";
     echo "<br/>";
 
     //get yesterday stats
@@ -43,7 +43,7 @@
     echo "Work: ".number_format(($dailyTraffic['sumwork']/1024/1024/1024),1)." Gb, ";
     echo "Entertainment: ".number_format(($dailyTraffic['sument']/1024/1024/1024),1)." Gb, ";
     echo "The rest: ".number_format(($dailyTraffic['sumtherest']/1024/1024/1024),1)." Gb, ";
-    echo "Total: ".number_format((($dailyTraffic['sumwork']+$dailyTraffic['sument']+$dailyTraffic['sumtherest'])/1024/1024),1)." Mb </br>";
+    echo "Total: ".number_format((($dailyTraffic['sumwork']+$dailyTraffic['sument']+$dailyTraffic['sumtherest'])/1024/1024/1024),1)." Gb </br>";
     echo "<br/>";
 
 
