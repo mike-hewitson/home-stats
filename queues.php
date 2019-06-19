@@ -21,11 +21,13 @@
         $getTraffic->execute();
         $chartData = '';
         $results = $getTraffic->fetchAll();
-
         foreach ($results as $res) {
             if(!isset($res['timestamp'])) continue;
             //set to Google Chart data format
-            $chartData .= "['".date('d M H:i', strtotime($res['timestamp']))."',"
+
+            $date = date_create($res[timestamp]);
+            date_timezone_set($date, timezone_open('Africa/Johannesburg'));
+            $chartData .= "['".$date->format('d M H:i')."',"
                          .round(($res['work']/1024/1024),2).","
                          .round(($res['entertainment']/1024/1024),2).","
                          .round(($res['therest']/1024/1024),2)."],";
