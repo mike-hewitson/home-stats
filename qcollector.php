@@ -5,16 +5,12 @@ Usage: /qcollector.php?sn=<SERIAL NUMBER>&q1=<Q1 BYTES>&q2=<Q2 BYTES>&q3=<Q2 BYT
 
 require("init.php");
 
-echo $_GET['q1'];
-$x = explode('/',  $_GET['q1']);
-echo $x[0] . $x[1];
-
-
 // Check input data
 if (isset($_GET['sn'])
     and isset($_GET['q1'])
     and isset($_GET['q2'])
-    and isset($_GET['q3'])){
+    and isset($_GET['q3'])
+    and isset($_GET['q4'])){
     $device_serial = substr($_GET['sn'], 0, 12);
 } else {
     echo 'fail';
@@ -31,11 +27,13 @@ $device = $getDevice->fetch(PDO::FETCH_ASSOC);
 $q1 = explode('/',  $_GET['q1']);
 $q2 = explode('/',  $_GET['q2']);
 $q3 = explode('/',  $_GET['q3']);
+$q4 = explode('/',  $_GET['q4']);
 
 
 $work = $q1[0] + $q1[1];
 $entertainment = $q2[0] + $q2[1];
 $therest = $q3[0] + $q3[1];
+$test = $q4[0] + $q4[1];
 
 // $device = $result->fetchArray(SQLITE3_ASSOC);
 if (empty($device)) {
@@ -60,13 +58,14 @@ else {
 }
 
 //Update traffic data
-$updateTraffic = $db->prepare('INSERT INTO qtraffic (device_id, timestamp, work, entertainment, therest)
-    VALUES (:id, :time, :work, :entertainment, :therest)');
+$updateTraffic = $db->prepare('INSERT INTO qtraffic (device_id, timestamp, work, entertainment, therest, test)
+    VALUES (:id, :time, :work, :entertainment, :therest, :test)');
 $updateTraffic->bindValue(':id', $device['id']);
 $updateTraffic->bindValue(':time', date('Y-m-d H:i:s'));
 $updateTraffic->bindValue(':work', $work);
 $updateTraffic->bindValue(':entertainment', $entertainment);
 $updateTraffic->bindValue(':therest', $therest);
+$updateTraffic->bindValue(':test', $test);
 $updateTraffic->execute();
 
 echo 'traffic data updated';
