@@ -22,7 +22,7 @@
                          .round(($res['work']/1024/1024),1).","
                          .round(($res['entertainment']/1024/1024),1).","
                          .round(($res['therest']/1024/1024),1).","
-                         .round(($res['thetest']/1024/1024),1)."],";
+                         .round(($res['test']/1024/1024),1)."],";
         }
 
     ?>
