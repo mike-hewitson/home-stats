@@ -7,7 +7,7 @@
 
     if (isset($_GET['id']) and is_numeric($_GET['id'])) {
         //get data for chart
-        $getDayTraffic = $db->prepare("SELECT day, (SELECT sum(work) FROM qtraffic WHERE timestamp >= day AND timestamp < day + interval '1 day') as sumwork, (SELECT sum(entertainment) FROM qtraffic WHERE timestamp >= day AND timestamp < day + interval '1 day') as sument, (SELECT sum(entertainment) FROM qtraffic WHERE timestamp >= day AND timestamp < day + interval '1 day') as sument, (SELECT sum(test) FROM qtraffic WHERE device_id = ? AND timestamp >= day AND timestamp < day + interval '1 day') as sumtest FROM generate_series(CURRENT_DATE, CURRENT_DATE -31, '-1 day'::interval) day ORDER BY day");
+        $getDayTraffic = $db->prepare("SELECT day, (SELECT sum(work) FROM qtraffic WHERE timestamp >= day AND timestamp < day + interval '1 day') as sumwork, (SELECT sum(entertainment) FROM qtraffic WHERE timestamp >= day AND timestamp < day + interval '1 day') as sument, (SELECT sum(therest) FROM qtraffic WHERE timestamp >= day AND timestamp < day + interval '1 day') as sumtherest, (SELECT sum(test) FROM qtraffic WHERE device_id = ? AND timestamp >= day AND timestamp < day + interval '1 day') as sumtest FROM generate_series(CURRENT_DATE, CURRENT_DATE -31, '-1 day'::interval) day ORDER BY day");
         $getDayTraffic->bindValue(1, $_GET['id']);
         $getDayTraffic->execute();
 

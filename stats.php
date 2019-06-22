@@ -5,7 +5,7 @@
 
     //get this day so far stats
     //query the db
-    $daily = $db->prepare('SELECT sum(work) as sumwork, sum(entertainment) as sument, sum(therest) as sumtherest FROM qtraffic WHERE device_id = ? AND timestamp >= ? AND timestamp <= ?');
+    $daily = $db->prepare('SELECT sum(work) as sumwork, sum(entertainment) as sument, sum(therest) as sumtherest, sum(test) as sumtest FROM qtraffic WHERE device_id = ? AND timestamp >= ? AND timestamp <= ?');
     $daily->bindValue(1, $_GET['id']);
     $daily->bindValue(2, date('Y-m-d 00:00:00'));
     $daily->bindValue(3, date('Y-m-d 23:59:59'));
@@ -19,7 +19,8 @@
     echo "Work: ".number_format(($dailyTraffic['sumwork']/1024/1024/1024),1)." Gb, ";
     echo "Entertainment: ".number_format(($dailyTraffic['sument']/1024/1024/1024),1)." Gb, ";
     echo "The rest: ".number_format(($dailyTraffic['sumtherest']/1024/1024/1024),1)." Gb, ";
-    echo "Total: ".number_format((($dailyTraffic['sumwork']+$dailyTraffic['sument']+$dailyTraffic['sumtherest'])/1024/1024/1024),1)." Gb </br>";
+    echo "Test: ".number_format(($dailyTraffic['sumtest']/1024/1024/1024),1)." Gb, ";
+    echo "Total: ".number_format((($dailyTraffic['sumwork']+$dailyTraffic['sument']+$dailyTraffic['sumtherest']+$dailyTraffic['sumtest'])/1024/1024/1024),1)." Gb </br>";
     echo "<br/>";
 
     //get yesterday stats
@@ -29,7 +30,7 @@
     $yesterday = new DateTime();
     $yesterday->modify("-1 day");
 
-    $daily = $db->prepare('SELECT sum(work) as sumwork, sum(entertainment) as sument, sum(therest) as sumtherest FROM qtraffic WHERE device_id = ? AND timestamp >= ? AND timestamp <= ?');
+    $daily = $db->prepare('SELECT sum(work) as sumwork, sum(entertainment) as sument, sum(therest) as sumtherest, sum(test) as sumtest FROM qtraffic WHERE device_id = ? AND timestamp >= ? AND timestamp <= ?');
     $daily->bindValue(1, $_GET['id']);
     $daily->bindValue(2,  $yesterday->format('Y-m-d 00:00:00'));
     $daily->bindValue(3, $yesterday->format('Y-m-d 23:59:59'));
@@ -43,7 +44,8 @@
     echo "Work: ".number_format(($dailyTraffic['sumwork']/1024/1024/1024),1)." Gb, ";
     echo "Entertainment: ".number_format(($dailyTraffic['sument']/1024/1024/1024),1)." Gb, ";
     echo "The rest: ".number_format(($dailyTraffic['sumtherest']/1024/1024/1024),1)." Gb, ";
-    echo "Total: ".number_format((($dailyTraffic['sumwork']+$dailyTraffic['sument']+$dailyTraffic['sumtherest'])/1024/1024/1024),1)." Gb </br>";
+    echo "Test: ".number_format(($dailyTraffic['sumtest']/1024/1024/1024),1)." Gb, ";
+    echo "Total: ".number_format((($dailyTraffic['sumwork']+$dailyTraffic['sument']+$dailyTraffic['sumtherest']+$dailyTraffic['sumtest'])/1024/1024/1024),1)." Gb </br>";
     echo "<br/>";
 
 
@@ -60,7 +62,7 @@
     #echo $firstdayofweek->format('Y-m-d 00:00:00').' to '.$lastdayofweek->format('Y-m-d 23:59:59');
 
     //query the db
-    $weekly = $db->prepare('SELECT sum(work) as sumwork, sum(entertainment) as sument, sum(therest) as sumtherest FROM qtraffic WHERE device_id = ? AND timestamp >= ? AND timestamp <= ?');
+    $weekly = $db->prepare('SELECT sum(work) as sumwork, sum(entertainment) as sument, sum(therest) as sumtherest, sum(test) as sumtest FROM qtraffic WHERE device_id = ? AND timestamp >= ? AND timestamp <= ?');
     $weekly->bindValue(1, $_GET['id']);
     $weekly->bindValue(2, $firstdayofweek->format('Y-m-d 00:00:00'));
     $weekly->bindValue(3, $lastdayofweek->format('Y-m-d 23:59:59'));
@@ -73,12 +75,13 @@
     echo "Work: ".number_format(($weeklyTraffic['sumwork']/1024/1024/1024),1)." Gb, ";
     echo "Entertainment: ".number_format(($weeklyTraffic['sument']/1024/1024/1024),1)." Gb, ";
     echo "The rest: ".number_format(($weeklyTraffic['sumtherest']/1024/1024/1024),1)." Gb, ";
-    echo "Total: ".number_format((($weeklyTraffic['sumwork']+$weeklyTraffic['sument']+$weeklyTraffic['sumtherest'])/1024/1024/1024),1)." Gb </br>";
+    echo "Test: ".number_format(($weeklyTraffic['sumtest']/1024/1024/1024),1)." Gb, ";
+    echo "Total: ".number_format((($weeklyTraffic['sumwork']+$weeklyTraffic['sument']+$weeklyTraffic['sumtherest']+$weeklyTraffic['sumtest'])/1024/1024/1024),1)." Gb </br>";
     echo "<br/>";
 
     //get monthly stats
     //query the db
-    $monthly = $db->prepare('SELECT sum(work) as sumwork, sum(entertainment) as sument, sum(therest) as sumtherest FROM qtraffic WHERE device_id = ? AND timestamp >= ? AND timestamp <= ?');
+    $monthly = $db->prepare('SELECT sum(work) as sumwork, sum(entertainment) as sument, sum(therest) as sumtherest, sum(test) as sumtest FROM qtraffic WHERE device_id = ? AND timestamp >= ? AND timestamp <= ?');
     $monthly->bindValue(1, $_GET['id']);
     $monthly->bindValue(2, date('Y-m-01 00:00:00'));
     $monthly->bindValue(3, date('Y-m-t 23:59:59'));
@@ -91,7 +94,8 @@
     echo "Work: ".number_format(($monthlyTraffic['sumwork']/1024/1024/1024),1)." Gb, ";
     echo "Entertainment: ".number_format(($monthlyTraffic['sument']/1024/1024/1024),1)." Gb, ";
     echo "The Rest: ".number_format(($monthlyTraffic['sumtherest']/1024/1024/1024),1)." Gb, ";
-    echo "Total: ".number_format((($monthlyTraffic['sumwork']+$monthlyTraffic['sument']+$monthlyTraffic['sumtherest'])/1024/1024/1024),1)." Gb </br>";
+    echo "Test: ".number_format(($monthlyTraffic['sumtest']/1024/1024/1024),1)." Gb, ";
+    echo "Total: ".number_format((($monthlyTraffic['sumwork']+$monthlyTraffic['sument']+$monthlyTraffic['sumtherest']+$monthlyTraffic['sumtest'])/1024/1024/1024),1)." Gb </br>";
     echo "<br/>";
 
     }
