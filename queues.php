@@ -21,7 +21,8 @@
             $chartData .= "['".$date->format('d M H:i')."',"
                          .round(($res['work']/1024/1024),1).","
                          .round(($res['entertainment']/1024/1024),1).","
-                         .round(($res['therest']/1024/1024),1)."],";
+                         .round(($res['therest']/1024/1024),1).","
+                         .round(($res['thetest']/1024/1024),1)."],";
         }
 
     ?>
@@ -33,7 +34,7 @@
 
          function drawChart() {
              var data = google.visualization.arrayToDataTable([
-                 ['Date/Time', 'Work (Mb)', 'Entertainment (Mb)', 'Default (Mb)'],
+                 ['Date/Time', 'Work (Mb)', 'Entertainment (Mb)', 'Default (Mb)', 'Test (Mb)'],
                  <?php echo $chartData;?>
              ]);
 
