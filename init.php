@@ -1,6 +1,6 @@
 <?php
 //set local timezone
-date_default_timezone_set('Africa/Johannesburg');
+date_default_timezone_set('Etc/UTC');
 
 // Create a new database, if the file doesn't exist and open it for reading/writing.
 
