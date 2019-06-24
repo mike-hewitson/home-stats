@@ -27,6 +27,20 @@
 
     ?>
     <head>
+        <style>
+         table, th, td {
+             border: 1px solid black;
+             border-collapse: collapse;
+         }
+         table {
+             border-spacing: 5px;
+             width:700px;
+         }
+         th, td {
+             text-align: right;
+             padding: 5px;
+         }
+        </style>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
          google.charts.load('current', {'packages':['bar']});
