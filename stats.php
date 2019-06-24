@@ -124,6 +124,31 @@
     echo "Total: ".number_format((($monthlyTraffic['sumwork']+$monthlyTraffic['sument']+$monthlyTraffic['sumtherest']+$monthlyTraffic['sumtest'])/1024/1024/1024),1)." Gb </br>";
     echo "<br/>";
 
+
+    //get last months stats
+    //query the db
+
+    $beginningoflastmonth = clone $today;
+    $beginningoflastmonth->modify('first day of last month');
+    $endoflastmonth = clone $today;
+    $endoflastmonth->modify('last day of last month');
+    $monthly = $db->prepare('SELECT sum(work) as sumwork, sum(entertainment) as sument, sum(therest) as sumtherest, sum(test) as sumtest FROM qtraffic WHERE device_id = ? AND timestamp >= ? AND timestamp <= ?');
+    $monthly->bindValue(1, $_GET['id']);
+    $monthly->bindValue(2, $beginningoflastmonth->format('Y-m-d 00:00:00'));
+    $monthly->bindValue(3, $endoflastmonth->format('Y-m-d 23:59:59'));
+    $monthly->execute();
+
+    $monthlyTraffic = $monthly->fetch();
+    //display results
+    echo "<strong>Last Month</strong><br/>";
+    echo "From: ".$beginningoflastmonth->format('Y-m-d 00:00:00')." to ".$endoflastmonth->format('Y-m-d 23:59:59')."<br/>";
+    echo "Work: ".number_format(($monthlyTraffic['sumwork']/1024/1024/1024),1)." Gb, ";
+    echo "Entertainment: ".number_format(($monthlyTraffic['sument']/1024/1024/1024),1)." Gb, ";
+    echo "The Rest: ".number_format(($monthlyTraffic['sumtherest']/1024/1024/1024),1)." Gb, ";
+    echo "Test: ".number_format(($monthlyTraffic['sumtest']/1024/1024/1024),1)." Gb, ";
+    echo "Total: ".number_format((($monthlyTraffic['sumwork']+$monthlyTraffic['sument']+$monthlyTraffic['sumtherest']+$monthlyTraffic['sumtest'])/1024/1024/1024),1)." Gb </br>";
+    echo "<br/>";
+
     }
     else {
         $result = $db->query('SELECT * FROM devices');
