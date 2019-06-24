@@ -79,6 +79,32 @@
     echo "Total: ".number_format((($weeklyTraffic['sumwork']+$weeklyTraffic['sument']+$weeklyTraffic['sumtherest']+$weeklyTraffic['sumtest'])/1024/1024/1024),1)." Gb </br>";
     echo "<br/>";
 
+    //get last weekly stats
+    //getting sunday and saturday dates for current week
+    $firstdayofweek->modify('-7 days');
+    $lastdayofweek->modify('-7 days');
+
+    #echo $firstdayofweek->format('Y-m-d 00:00:00').' to '.$lastdayofweek->format('Y-m-d 23:59:59');
+
+    //query the db
+    $weekly = $db->prepare('SELECT sum(work) as sumwork, sum(entertainment) as sument, sum(therest) as sumtherest, sum(test) as sumtest FROM qtraffic WHERE device_id = ? AND timestamp >= ? AND timestamp <= ?');
+    $weekly->bindValue(1, $_GET['id']);
+    $weekly->bindValue(2, $firstdayofweek->format('Y-m-d 00:00:00'));
+    $weekly->bindValue(3, $lastdayofweek->format('Y-m-d 23:59:59'));
+    $weekly->execute();
+    #print_r($weeklyTraffic->fetchArray(SQLITE3_ASSOC));
+    $weeklyTraffic = $weekly->fetch();
+    //display results
+    echo "<strong>Last Week</strong><br/>";
+    echo "From: ".$firstdayofweek->format('Y-m-d 00:00:00')." to ".$lastdayofweek->format('Y-m-d 23:59:59')."<br/>";
+    echo "Work: ".number_format(($weeklyTraffic['sumwork']/1024/1024/1024),1)." Gb, ";
+    echo "Entertainment: ".number_format(($weeklyTraffic['sument']/1024/1024/1024),1)." Gb, ";
+    echo "The rest: ".number_format(($weeklyTraffic['sumtherest']/1024/1024/1024),1)." Gb, ";
+    echo "Test: ".number_format(($weeklyTraffic['sumtest']/1024/1024/1024),1)." Gb, ";
+    echo "Total: ".number_format((($weeklyTraffic['sumwork']+$weeklyTraffic['sument']+$weeklyTraffic['sumtherest']+$weeklyTraffic['sumtest'])/1024/1024/1024),1)." Gb </br>";
+    echo "<br/>";
+
+
     //get monthly stats
     //query the db
     $monthly = $db->prepare('SELECT sum(work) as sumwork, sum(entertainment) as sument, sum(therest) as sumtherest, sum(test) as sumtest FROM qtraffic WHERE device_id = ? AND timestamp >= ? AND timestamp <= ?');
