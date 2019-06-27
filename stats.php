@@ -124,7 +124,7 @@
     //display results
     echo "<tr><td><strong>This Month</strong></td>";
     echo "<td>".date('Y-m-01')."</td><td>".date('Y-m-t')."</td>";
-    echo "<td>".number_format(($nonthlyTraffic['sumwork']/1024/1024/1024),1)."</td>";
+    echo "<td>".number_format(($monthlyTraffic['sumwork']/1024/1024/1024),1)."</td>";
     echo "<td>".number_format(($monthlyTraffic['sument']/1024/1024/1024),1)."</td>";
     echo "<td>".number_format(($monthlyTraffic['sumtherest']/1024/1024/1024),1)."</td>";
     echo "<td>".number_format(($monthlyTraffic['sumtest']/1024/1024/1024),1)."</td>";
