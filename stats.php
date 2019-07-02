@@ -150,7 +150,7 @@
     echo "<tr><td><strong>Last Month</strong></td>";
     echo "<td>".$beginningoflastmonth->format('Y-m-01')."</td><td>"
                .$endoflastmonth->format('Y-m-t')."</td>";
-    echo "<td>".number_format(($nonthlyTraffic['sumwork']/1024/1024/1024),1)."</td>";
+    echo "<td>".number_format(($monthlyTraffic['sumwork']/1024/1024/1024),1)."</td>";
     echo "<td>".number_format(($monthlyTraffic['sument']/1024/1024/1024),1)."</td>";
     echo "<td>".number_format(($monthlyTraffic['sumtherest']/1024/1024/1024),1)."</td>";
     echo "<td>".number_format(($monthlyTraffic['sumtest']/1024/1024/1024),1)."</td>";
