@@ -9,7 +9,7 @@
         <th>To</th>
         <th>Work</th>
         <th>Entertainment</th>
-        <th>The rest</th>
+        <th>Default</th>
         <th>Test</th>
         <th>Total</th>
       </tr>';
