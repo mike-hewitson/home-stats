@@ -1,33 +1,32 @@
 <html>
     <?php
 
-    require("init.php");
+    require("wan-init.php");
 
-    require("header.php");
+    require("wan-header.php");
 
     if (isset($_GET['id']) and is_numeric($_GET['id'])) {
         //get data for chart
-        $getTraffic = $db->prepare('SELECT * FROM (SELECT * FROM qtraffic WHERE device_id = ? ORDER BY timestamp DESC LIMIT 48) AS bob ORDER BY timestamp');
-        $getTraffic->bindValue(1, $_GET['id']);
-        $getTraffic->execute();
-        $chartData = '';
-        $results = $getTraffic->fetchAll();
-        foreach ($results as $res) {
-            if(!isset($res['timestamp'])) continue;
-            //set to Google Chart data format
+        $getDayTraffic = $db->prepare("SELECT day, (SELECT sum(work) FROM qtraffic WHERE timestamp >= day AND timestamp < day + interval '1 day') as sumwork, (SELECT sum(entertainment) FROM qtraffic WHERE timestamp >= day AND timestamp < day + interval '1 day') as sument, (SELECT sum(therest) FROM qtraffic WHERE timestamp >= day AND timestamp < day + interval '1 day') as sumtherest, (SELECT sum(test) FROM qtraffic WHERE device_id = ? AND timestamp >= day AND timestamp < day + interval '1 day') as sumtest FROM generate_series(CURRENT_DATE, CURRENT_DATE -31, '-1 day'::interval) day ORDER BY day");
+        $getDayTraffic->bindValue(1, $_GET['id']);
+        $getDayTraffic->execute();
 
-            $date = date_create($res['timestamp']);
-            date_timezone_set($date, timezone_open('Africa/Johannesburg'));
-            $chartData .= "['".$date->format('d M H:i')."',"
-                         .round(($res['work']/1024/1024),1).","
-                         .round(($res['entertainment']/1024/1024),1).","
-                         .round(($res['therest']/1024/1024),1).","
-                         .round(($res['test']/1024/1024),1)."],";
+        $chartData = '';
+        $results = $getDayTraffic->fetchAll();
+
+        foreach ($results as $res) {
+            if(!isset($res['day'])) continue;
+            //set to Google Chart data format
+            $chartData .= "['".date('d M', strtotime($res['day']))."',"
+                         .round(($res['sumwork']/1024/1024),2).","
+                         .round(($res['sument']/1024/1024),2).","
+                         .round(($res['sumtherest']/1024/1024),2).","
+                         .round(($res['sumtest']/1024/1024),2)."],";
         }
 
     ?>
     <head>
-        <title>Hourly Stats</title>
+        <title>Daily Stats</title>
         <style>
          table, th, td {
              border: 1px solid black;
@@ -56,7 +55,7 @@
              var options = {
                  chart: {
                      title: 'Traffic Stats',
-                     subtitle: 'Last 48 hours'
+                     subtitle: 'Last 30 days'
                  },
                  isStacked: true
 
@@ -74,7 +73,7 @@
 
     <?php
 
-    require("stats.php");
+    require("wan-stats.php");
 
     }
     ?>

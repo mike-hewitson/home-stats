@@ -1,7 +1,7 @@
 <html>
     <?php
 
-    require("init.php");
+    require("wan-init.php");
 
     if (isset($_GET['id']) and is_numeric($_GET['id'])) {
         //get device info
