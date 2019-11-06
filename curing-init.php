@@ -25,6 +25,6 @@ $db->query ('CREATE TABLE IF NOT EXISTS readings (
     humidity double precision)');
 
 // Prune older rows
-$db->query ('DELETE FROM readings WHERE reading_timestamp < now()-"3 days"::interval');
+$db->query ("DELETE FROM readings WHERE reading_timestamp < now() - interval '3 days'");
 
 
