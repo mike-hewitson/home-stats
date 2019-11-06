@@ -45,4 +45,8 @@ $db->query('CREATE TABLE IF NOT EXISTS qtraffic (
     therest bigint,
     test bigint)');
 
+// Prune older rows
+$db->query ("DELETE FROM qtraffic WHERE timestamp < now() - interval '3 monthss'");
+
+
 
