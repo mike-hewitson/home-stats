@@ -3,7 +3,7 @@
 
     require("curing-init.php");
 
-    $getReadings = $db->prepare("with hours as (select generate_series(date_trunc('hour', now()) - '3 day'::interval, date_trunc('hour', now()),'1 hour'::interval) as hour)
+    $getReadings = $db->prepare("with hours as (select generate_series(date_trunc('hour', now()) - '2 day'::interval, date_trunc('hour', now()),'1 hour'::interval) as hour)
                                  select hours.hour, avg(readings.temperature) as avg_temp, avg(readings.humidity) as avg_hum from hours
                                  left join readings on date_trunc('hour', readings.reading_timestamp) = hours.hour
                                  group by 1");
@@ -54,7 +54,7 @@
                  <?php echo $chartData1;?>
              ]);
             var options = {
-                title: 'Curing Fridge Temperature - averages over last 3 days',
+                title: 'Curing Fridge Temperature - averages over last 2 days',
                 width: 1000,
                 height: 700,
                 curveType: 'function'
@@ -70,7 +70,7 @@
                  <?php echo $chartData2;?>
              ]);
             var options = {
-                title: 'Curing Fridge Humidity - averages over last 3 days',
+                title: 'Curing Fridge Humidity - averages over last 2 days',
                 width: 1000,
                 height: 700,
                 curveType: 'function',
